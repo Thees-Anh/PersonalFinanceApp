@@ -1,0 +1,14 @@
+{
+  "name": "personal-finance-app",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "start:backend": "npm start --workspace=backend",
+    "start:frontend": "npm start --workspace=frontend",
+    "lint": "npm run lint --workspaces"
+  }
+}

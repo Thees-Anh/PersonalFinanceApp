@@ -1,0 +1,9 @@
+node_modules/
+.env
+.DS_Store
+
+# React Native / Expo
+.expo/
+dist/
+npm-debug.log
+yarn-error.log
