@@ -90,8 +90,18 @@ Start the Expo development server:
 ```bash
 npx expo start -c
 ```
-- Scan the QR code with the **Expo Go** app on your physical device.
-- Or press `a` to run on Android Emulator / `i` for iOS Simulator.
+
+### 📱 Running on a Physical Device (Expo Go)
+To test the application on your actual smartphone:
+1. **Download Expo Go**: Install the "Expo Go" app from the App Store (iOS) or Google Play Store (Android).
+2. **Network Connection**: Ensure your computer and your smartphone are connected to the **same Wi-Fi network**.
+3. **Configure API IP Address**: 
+   - Since your phone cannot access `localhost`, you must change the API base URL in `frontend/src/api/client.ts` to your computer's local IP address.
+   - Example: Change `baseURL: 'http://localhost:5000/api'` to `baseURL: 'http://192.168.1.X:5000/api'`.
+4. **Scan the QR Code**: 
+   - Open the Camera app (iOS) or Expo Go app (Android).
+   - Scan the QR code displayed in your computer's terminal after running `npx expo start -c`.
+   - The app will automatically bundle and open on your device!
 
 ---
 
