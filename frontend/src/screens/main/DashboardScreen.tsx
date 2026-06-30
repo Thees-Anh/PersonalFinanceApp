@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, RefreshControl, Alert } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../../theme/ThemeContext';
 import { getMonthlySummary } from '../../api/analytics';
 import { getTransactions, deleteTransaction } from '../../api/transactions';
@@ -61,12 +62,12 @@ export default function DashboardScreen({ navigation }: any) {
   const balance = summary.totalIncome - summary.totalExpense;
 
   const renderSkeleton = () => (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={[styles.cardSkeleton, { backgroundColor: colors.card }]} />
       <View style={[styles.itemSkeleton, { backgroundColor: colors.card }]} />
       <View style={[styles.itemSkeleton, { backgroundColor: colors.card }]} />
       <View style={[styles.itemSkeleton, { backgroundColor: colors.card }]} />
-    </View>
+    </SafeAreaView>
   );
 
   if (loading && !refreshing) {
@@ -131,7 +132,7 @@ export default function DashboardScreen({ navigation }: any) {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
       <FlatList
         data={transactions}
         keyExtractor={(item: any) => item._id}
@@ -219,7 +220,7 @@ export default function DashboardScreen({ navigation }: any) {
           </View>
         }
       />
-    </View>
+    </SafeAreaView>
   );
 }
 

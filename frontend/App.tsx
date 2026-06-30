@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ThemeProvider } from './src/theme/ThemeContext';
 import RootNavigator from './src/navigation/RootNavigator';
 import Toast from 'react-native-toast-message';
@@ -12,9 +13,11 @@ export default function App() {
   }, [loadSettings]);
 
   return (
-    <ThemeProvider>
-      <RootNavigator />
-      <Toast />
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <ThemeProvider>
+        <RootNavigator />
+        <Toast />
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }
