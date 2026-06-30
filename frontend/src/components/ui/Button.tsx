@@ -5,21 +5,42 @@ import { useTheme } from '../../theme/ThemeContext';
 interface ButtonProps extends TouchableOpacityProps {
   title: string;
   loading?: boolean;
+  variant?: 'primary' | 'secondary' | 'outline';
 }
 
-export default function Button({ title, loading, style, ...props }: ButtonProps) {
+export default function Button({ title, loading, style, variant = 'primary', ...props }: ButtonProps) {
   const { colors } = useTheme();
+
+  const getButtonStyle = () => {
+    if (variant === 'outline') {
+      return { backgroundColor: 'transparent', borderWidth: 1, borderColor: colors.primary };
+    }
+    if (variant === 'secondary') {
+      return { backgroundColor: colors.border };
+    }
+    return { backgroundColor: colors.primary };
+  };
+
+  const getTextStyle = () => {
+    if (variant === 'outline') {
+      return { color: colors.primary };
+    }
+    if (variant === 'secondary') {
+      return { color: colors.text };
+    }
+    return { color: '#fff' };
+  };
 
   return (
     <TouchableOpacity
-      style={[styles.button, { backgroundColor: colors.primary }, style]}
+      style={[styles.button, getButtonStyle(), style]}
       disabled={loading || props.disabled}
       {...props}
     >
       {loading ? (
-        <ActivityIndicator color="#fff" />
+        <ActivityIndicator color={variant === 'primary' ? '#fff' : colors.primary} />
       ) : (
-        <Text style={styles.text}>{title}</Text>
+        <Text style={[styles.text, getTextStyle()]}>{title}</Text>
       )}
     </TouchableOpacity>
   );
@@ -36,7 +57,6 @@ const styles = StyleSheet.create({
     minHeight: 50,
   },
   text: {
-    color: '#fff',
     fontSize: 16,
     fontWeight: '600',
   },

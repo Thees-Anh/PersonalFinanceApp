@@ -183,7 +183,7 @@ export default function BudgetScreen() {
           <View 
             style={[
               styles.progressBarFill, 
-              { width: progressWidth, backgroundColor: progressColor }
+              { width: progressWidth as any, backgroundColor: progressColor }
             ]} 
           />
         </View>

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import AuthNavigator from './AuthNavigator';
-import MainNavigator from './MainNavigator';
+import AppNavigator from './AppNavigator';
 import { useTheme } from '../theme/ThemeContext';
 import { useAuthStore } from '../store/useAuthStore';
 import { View, ActivityIndicator } from 'react-native';
@@ -38,7 +38,7 @@ export default function RootNavigator() {
 
   return (
     <NavigationContainer theme={customTheme}>
-      {isAuthenticated ? <MainNavigator /> : <AuthNavigator />}
+      {isAuthenticated ? <AppNavigator /> : <AuthNavigator />}
     </NavigationContainer>
   );
 }
