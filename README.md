@@ -42,7 +42,11 @@
    - **Mô tả:** Không bao giờ quên tiền mình đã cho vay hoặc đi vay.
    - **Tính năng:** Phân biệt "Tôi Đi Vay" và "Tôi Cho Vay". Có ghi nhận Lãi suất, Ngày đến hạn và Nút công tắc chuyển đổi nhanh trạng thái **CHƯA TRẢ -> ĐÃ TRẢ**.
 
-7. **Đa Ngôn Ngữ & Giao Diện (Tiếng Việt/English, Dark/Light Mode)**
+7. **Phân Quyền & Quản Trị (Admin Panel) - *Kiểm soát hệ thống***
+   - **Mô tả:** Hệ thống phân quyền (Role-Based Access Control) chặt chẽ giữa User và Admin.
+   - **Tính năng:** Admin có Dashboard riêng biệt để theo dõi tổng quan số liệu toàn hệ thống. Cung cấp bộ công cụ **Quản lý người dùng** (Chặn/Mở chặn tài khoản chống spam) và **Hệ thống Phát Thông Báo (System Announcements)** với chuông báo đỏ Real-time tới toàn bộ thiết bị của người dùng.
+
+8. **Đa Ngôn Ngữ & Giao Diện (Tiếng Việt/English, Dark/Light Mode)**
    - Hệ thống i18n hỗ trợ dịch toàn bộ ứng dụng sang Tiếng Việt.
 
 ---
@@ -126,6 +130,7 @@ npx expo start -c
 3. **Thêm Giao Dịch**: Bấm nút **[+] Thêm** (ở giữa) -> Nhập số tiền 500.000, Chọn danh mục "Ăn uống". Quay lại trang chủ để xem Số dư tổng giảm xuống.
 4. **Mục Tiêu Tiết Kiệm**: Bấm nút **Goals** -> Tạo mục tiêu "Mua iPhone" (30 triệu). Bấm vào mục tiêu -> Nạp 10 triệu và xem thanh tiến độ tăng lên.
 5. **Khoản Nợ**: Bấm nút **Debts** -> Tạo một bản ghi "Tôi đi vay" 1 triệu. Bấm nút "CHƯA TRẢ" trên thẻ (card) để đổi ngay lập tức thành trạng thái "ĐÃ TRẢ" màu xanh.
+6. **Kiểm Thử Quyền Admin**: Thoát tài khoản hiện tại, đăng nhập bằng `admin@personalfinance.com` (mật khẩu: `admin123`). Vào **Tab Admin** bên dưới góc phải, thử đăng 1 thông báo mới hoặc khóa (Ban) một người dùng bất kỳ. Đăng nhập lại bằng tài khoản bị khóa để xác minh lớp bảo mật.
 
 ---
 
