@@ -5,6 +5,7 @@ import GoalsScreen from '../screens/main/GoalsScreen';
 import GoalDetailScreen from '../screens/main/GoalDetailScreen';
 import SubsScreen from '../screens/main/SubsScreen';
 import DebtsScreen from '../screens/main/DebtsScreen';
+import AnnouncementsScreen from '../screens/main/AnnouncementsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +17,7 @@ export default function AppNavigator() {
       <Stack.Screen name="GoalDetailScreen" component={GoalDetailScreen} />
       <Stack.Screen name="SubsScreen" component={SubsScreen} />
       <Stack.Screen name="DebtsScreen" component={DebtsScreen} />
+      <Stack.Screen name="Announcements" component={AnnouncementsScreen} />
     </Stack.Navigator>
   );
 }

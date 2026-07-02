@@ -10,11 +10,14 @@ import { useFocusEffect } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import { useSettingsStore, formatCurrency } from '../../store/useSettingsStore';
 import { useTranslation } from '../../utils/i18n';
-
+import { getUserAnnouncements } from '../../api/announcements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAuthStore } from '../../store/useAuthStore';
 export default function DashboardScreen({ navigation }: any) {
   const { colors } = useTheme();
   const { currency } = useSettingsStore();
   const { t, tCategory } = useTranslation();
+  const { user } = useAuthStore();
   
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -22,6 +25,7 @@ export default function DashboardScreen({ navigation }: any) {
   
   const [summary, setSummary] = useState({ totalIncome: 0, totalExpense: 0 });
   const [transactions, setTransactions] = useState([]);
+  const [hasNewAnnouncement, setHasNewAnnouncement] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -36,6 +40,21 @@ export default function DashboardScreen({ navigation }: any) {
       // Get recent transactions (e.g., limit to 5)
       const txData = await getTransactions({ page: 1, limit: 5 });
       setTransactions(txData.transactions || []);
+
+      // Check for new announcements
+      try {
+        const announcements = await getUserAnnouncements();
+        if (announcements && announcements.length > 0) {
+          const lastReadTimeStr = await AsyncStorage.getItem('lastReadAnnouncementTime');
+          const lastReadTime = lastReadTimeStr ? new Date(lastReadTimeStr).getTime() : 0;
+          const latestTime = new Date(announcements[0].createdAt).getTime();
+          setHasNewAnnouncement(latestTime > lastReadTime);
+        } else {
+          setHasNewAnnouncement(false);
+        }
+      } catch (err) {
+        // silently ignore announcement errors on dashboard
+      }
     } catch (error: any) {
       Toast.show({
         type: 'error',
@@ -143,6 +162,17 @@ export default function DashboardScreen({ navigation }: any) {
         }
         ListHeaderComponent={
           <>
+            <View style={styles.topBar}>
+              <View>
+                <Text style={[styles.greeting, { color: colors.textSecondary }]}>Xin chào,</Text>
+                <Text style={[styles.userName, { color: colors.text }]}>{user?.name || 'Người dùng'}</Text>
+              </View>
+              <TouchableOpacity onPress={() => navigation.navigate('Announcements')} style={styles.bellBtn}>
+                <Ionicons name="notifications-outline" size={28} color={colors.text} />
+                {hasNewAnnouncement && <View style={styles.redDot} />}
+              </TouchableOpacity>
+            </View>
+
             <LinearGradient
               colors={[colors.primary, '#2563EB']}
               style={styles.balanceCard}
@@ -225,8 +255,28 @@ export default function DashboardScreen({ navigation }: any) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  container: { flex: 1 },
+  topBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 10,
+    paddingBottom: 15,
+  },
+  greeting: { fontSize: 14, marginBottom: 2 },
+  userName: { fontSize: 20, fontWeight: 'bold' },
+  bellBtn: { position: 'relative', padding: 4 },
+  redDot: {
+    position: 'absolute',
+    top: 4,
+    right: 6,
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: '#ef4444',
+    borderWidth: 1,
+    borderColor: '#fff',
   },
   balanceCard: {
     margin: 20,

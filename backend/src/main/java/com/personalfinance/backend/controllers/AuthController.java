@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import com.personalfinance.backend.models.ERole;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -40,6 +43,11 @@ public class AuthController {
         user.setName(name);
         user.setEmail(email);
         user.setPasswordHash(encoder.encode(password));
+
+        Set<ERole> roles = new HashSet<>();
+        roles.add(ERole.ROLE_USER);
+        user.setRoles(roles);
+
         userRepository.save(user);
 
         String token = jwtUtils.generateJwtToken(user.getId());
@@ -48,6 +56,7 @@ public class AuthController {
         userRes.put("id", user.getId());
         userRes.put("name", user.getName());
         userRes.put("email", user.getEmail());
+        userRes.put("roles", user.getRoles());
 
         return ResponseEntity.status(201).body(Map.of("token", token, "user", userRes));
     }
@@ -67,12 +76,25 @@ public class AuthController {
             return ResponseEntity.badRequest().body(Map.of("message", "Invalid credentials"));
         }
 
+        if (user.isBanned()) {
+            return ResponseEntity.status(403).body(Map.of("message", "Tài khoản của bạn đã bị khóa. Vui lòng liên hệ Admin."));
+        }
+
         String token = jwtUtils.generateJwtToken(user.getId());
+
+        // Tự động cấp ROLE_USER cho các tài khoản cũ chưa có field roles
+        if (user.getRoles() == null || user.getRoles().isEmpty()) {
+            Set<ERole> defaultRoles = new HashSet<>();
+            defaultRoles.add(ERole.ROLE_USER);
+            user.setRoles(defaultRoles);
+            userRepository.save(user);
+        }
 
         Map<String, Object> userRes = new HashMap<>();
         userRes.put("id", user.getId());
         userRes.put("name", user.getName());
         userRes.put("email", user.getEmail());
+        userRes.put("roles", user.getRoles());
 
         return ResponseEntity.ok(Map.of("token", token, "user", userRes));
     }

@@ -9,12 +9,17 @@ import ProfileScreen from '../screens/main/ProfileScreen';
 import { useTheme } from '../theme/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from '../utils/i18n';
+import { useAuthStore } from '../store/useAuthStore';
+import AdminNavigator from './AdminNavigator';
 
 const Tab = createBottomTabNavigator();
 
 export default function MainNavigator() {
   const { colors } = useTheme();
   const { t } = useTranslation();
+  const { user } = useAuthStore();
+  
+  const isAdmin = user?.roles?.includes('ROLE_ADMIN');
 
   return (
     <Tab.Navigator
@@ -31,6 +36,7 @@ export default function MainNavigator() {
           else if (route.name === 'Analytics') iconName = focused ? 'pie-chart' : 'pie-chart-outline';
           else if (route.name === 'Budget') iconName = focused ? 'wallet' : 'wallet-outline';
           else if (route.name === 'Profile') iconName = focused ? 'person' : 'person-outline';
+          else if (route.name === 'Admin') iconName = focused ? 'shield' : 'shield-outline';
           
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -42,6 +48,9 @@ export default function MainNavigator() {
       <Tab.Screen name="Analytics" component={AnalyticsScreen} options={{ tabBarLabel: t('tab_analytics') }} />
       <Tab.Screen name="Budget" component={BudgetScreen} options={{ tabBarLabel: t('tab_budget') }} />
       <Tab.Screen name="Profile" component={ProfileScreen} options={{ tabBarLabel: t('tab_profile') }} />
+      {isAdmin && (
+        <Tab.Screen name="Admin" component={AdminNavigator} options={{ tabBarLabel: 'Admin' }} />
+      )}
     </Tab.Navigator>
   );
 }
