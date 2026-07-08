@@ -41,6 +41,7 @@ public class AdminController {
     @Autowired
     private AnnouncementRepository announcementRepository;
 
+    // API: Lấy thống kê tổng quan hệ thống dành cho Admin (số lượng user, tổng giao dịch, v.v.)
     @GetMapping("/stats")
     public ResponseEntity<?> getSystemStats() {
         long totalUsers = userRepository.count();
@@ -55,6 +56,7 @@ public class AdminController {
         return ResponseEntity.ok(stats);
     }
 
+    // API: Lấy danh sách tất cả người dùng trong hệ thống (dành cho Admin)
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers(@RequestParam(required = false) String search) {
         List<User> users;
@@ -69,6 +71,7 @@ public class AdminController {
         return ResponseEntity.ok(users);
     }
 
+    // API: Khóa hoặc Mở khóa một tài khoản người dùng
     @PutMapping("/users/{id}/ban")
     public ResponseEntity<?> toggleBanUser(@PathVariable String id) {
         Optional<User> userOpt = userRepository.findById(id);
@@ -91,17 +94,20 @@ public class AdminController {
         ));
     }
 
+    // API: Lấy danh sách các thông báo hệ thống đã tạo
     @GetMapping("/announcements")
     public ResponseEntity<List<Announcement>> getAdminAnnouncements() {
         return ResponseEntity.ok(announcementRepository.findAllByOrderByCreatedAtDesc());
     }
 
+    // API: Tạo mới một thông báo hệ thống để gửi cho toàn bộ người dùng
     @PostMapping("/announcements")
     public ResponseEntity<Announcement> createAnnouncement(@RequestBody Announcement announcement) {
         announcement.setCreatedAt(new java.util.Date());
         return ResponseEntity.ok(announcementRepository.save(announcement));
     }
 
+    // API: Xóa một thông báo hệ thống
     @DeleteMapping("/announcements/{id}")
     public ResponseEntity<?> deleteAnnouncement(@PathVariable String id) {
         announcementRepository.deleteById(id);

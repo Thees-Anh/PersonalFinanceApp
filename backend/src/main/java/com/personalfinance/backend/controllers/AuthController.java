@@ -29,6 +29,7 @@ public class AuthController {
     @Autowired
     private JwtUtils jwtUtils;
 
+    // API: Đăng ký tài khoản người dùng mới
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Map<String, String> request) {
         String name = request.get("name");
@@ -61,6 +62,7 @@ public class AuthController {
         return ResponseEntity.status(201).body(Map.of("token", token, "user", userRes));
     }
 
+    // API: Đăng nhập hệ thống và lấy mã Token (JWT)
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> request) {
         String email = request.get("email");
@@ -99,6 +101,7 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("token", token, "user", userRes));
     }
 
+    // API: Cập nhật thông tin cá nhân (Profile) của người dùng hiện tại
     @PutMapping("/profile")
     public ResponseEntity<?> updateProfile(@RequestBody Map<String, String> request) {
         String name = request.get("name");
@@ -123,6 +126,7 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("user", userRes));
     }
 
+    // API: Thay đổi mật khẩu người dùng
     @PutMapping("/password")
     public ResponseEntity<?> changePassword(@RequestBody Map<String, String> request) {
         String oldPassword = request.get("oldPassword");

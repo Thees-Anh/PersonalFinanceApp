@@ -18,6 +18,7 @@ public class BudgetController {
     @Autowired
     private BudgetRepository budgetRepository;
 
+    // API: Thiết lập (tạo mới) một ngân sách (Budget) cho một danh mục chi tiêu
     @PostMapping
     public ResponseEntity<?> createBudget(@RequestBody Budget request) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -32,6 +33,7 @@ public class BudgetController {
         return ResponseEntity.status(201).body(saved);
     }
 
+    // API: Cập nhật thông tin ngân sách (ví dụ: thay đổi hạn mức chi tiêu)
     @PutMapping("/{id}")
     public ResponseEntity<?> updateBudget(@PathVariable String id, @RequestBody Map<String, Object> updates) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -49,6 +51,7 @@ public class BudgetController {
         return ResponseEntity.ok(b);
     }
 
+    // API: Xóa một thiết lập ngân sách khỏi hệ thống
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteBudget(@PathVariable String id) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();

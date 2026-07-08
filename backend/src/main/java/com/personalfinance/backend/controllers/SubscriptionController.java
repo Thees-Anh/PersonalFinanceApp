@@ -19,6 +19,7 @@ public class SubscriptionController {
     @Autowired
     private SubscriptionRepository subscriptionRepository;
 
+    // API: Lấy danh sách các dịch vụ đăng ký định kỳ (Subscription)
     @GetMapping
     public ResponseEntity<?> getSubscriptions() {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -26,6 +27,7 @@ public class SubscriptionController {
         return ResponseEntity.ok(subs);
     }
 
+    // API: Thêm mới một dịch vụ đăng ký định kỳ (ví dụ: Netflix, Spotify)
     @PostMapping
     public ResponseEntity<?> createSubscription(@RequestBody Subscription request) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -37,6 +39,7 @@ public class SubscriptionController {
         return ResponseEntity.status(201).body(saved);
     }
 
+    // API: Cập nhật thông tin dịch vụ định kỳ
     @PutMapping("/{id}")
     public ResponseEntity<?> updateSubscription(@PathVariable String id, @RequestBody Subscription request) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -60,6 +63,7 @@ public class SubscriptionController {
         return ResponseEntity.ok(updated);
     }
 
+    // API: Xóa một dịch vụ định kỳ khỏi hệ thống
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteSubscription(@PathVariable String id) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();

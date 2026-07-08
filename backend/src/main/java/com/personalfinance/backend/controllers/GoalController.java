@@ -20,6 +20,7 @@ public class GoalController {
     @Autowired
     private GoalRepository goalRepository;
 
+    // API: Lấy danh sách các mục tiêu tiết kiệm (Goals)
     @GetMapping
     public ResponseEntity<?> getGoals() {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -27,6 +28,7 @@ public class GoalController {
         return ResponseEntity.ok(goals);
     }
 
+    // API: Lấy chi tiết thông tin của một mục tiêu tiết kiệm
     @GetMapping("/{id}")
     public ResponseEntity<?> getGoal(@PathVariable String id) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -38,6 +40,7 @@ public class GoalController {
         return ResponseEntity.ok(gOpt.get());
     }
 
+    // API: Tạo mới một mục tiêu tiết kiệm
     @PostMapping
     public ResponseEntity<?> createGoal(@RequestBody Goal request) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -55,6 +58,7 @@ public class GoalController {
         return ResponseEntity.status(201).body(saved);
     }
 
+    // API: Thêm/rút tiền (cập nhật quỹ) cho một mục tiêu tiết kiệm
     @PostMapping("/{id}/funds")
     public ResponseEntity<?> addFund(@PathVariable String id, @RequestBody GoalFund fundReq) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -82,6 +86,7 @@ public class GoalController {
         return ResponseEntity.ok(updated);
     }
 
+    // API: Xóa một mục tiêu tiết kiệm khỏi hệ thống
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteGoal(@PathVariable String id) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();

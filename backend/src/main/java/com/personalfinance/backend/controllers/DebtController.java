@@ -19,6 +19,7 @@ public class DebtController {
     @Autowired
     private DebtRepository debtRepository;
 
+    // API: Lấy danh sách các khoản nợ hoặc cho vay (Debts)
     @GetMapping
     public ResponseEntity<?> getDebts() {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -26,6 +27,7 @@ public class DebtController {
         return ResponseEntity.ok(debts);
     }
 
+    // API: Tạo mới một khoản nợ hoặc cho vay
     @PostMapping
     public ResponseEntity<?> createDebt(@RequestBody Debt request) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -37,6 +39,7 @@ public class DebtController {
         return ResponseEntity.status(201).body(saved);
     }
 
+    // API: Cập nhật thông tin khoản nợ/cho vay (bao gồm số tiền đã trả)
     @PutMapping("/{id}")
     public ResponseEntity<?> updateDebt(@PathVariable String id, @RequestBody Debt request) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -63,6 +66,7 @@ public class DebtController {
         return ResponseEntity.ok(updated);
     }
 
+    // API: Xóa một khoản nợ/cho vay khỏi hệ thống
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteDebt(@PathVariable String id) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();

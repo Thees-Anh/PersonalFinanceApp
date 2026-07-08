@@ -23,6 +23,7 @@ public class AnalyticsController {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    // API: Lấy dữ liệu tổng hợp thu/chi theo tháng (phục vụ vẽ biểu đồ tổng quan)
     @GetMapping("/summary")
     public ResponseEntity<?> getMonthlySummary(
             @RequestParam Integer month,
@@ -71,6 +72,7 @@ public class AnalyticsController {
         return ResponseEntity.ok(Map.of("totalIncome", totalIncome, "totalExpense", totalExpense, "expenseBreakdown", breakdown));
     }
 
+    // API: Lấy tình trạng ngân sách (đã chi tiêu, còn lại) trong tháng hiện tại hoặc tháng chỉ định
     @GetMapping("/budgets")
     public ResponseEntity<?> getBudgetStatus(
             @RequestParam(required = false) Integer month,
@@ -116,6 +118,7 @@ public class AnalyticsController {
         return ResponseEntity.ok(result);
     }
 
+    // API: Lấy xu hướng thu/chi 7 ngày gần nhất (phục vụ vẽ biểu đồ đường/cột theo tuần)
     @GetMapping("/weekly-trends")
     public ResponseEntity<?> getWeeklyTrends() {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();

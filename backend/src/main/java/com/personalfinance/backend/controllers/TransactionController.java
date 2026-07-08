@@ -22,6 +22,7 @@ public class TransactionController {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    // API: Tạo mới một giao dịch (thu nhập hoặc chi tiêu)
     @PostMapping
     public ResponseEntity<?> createTransaction(@RequestBody Transaction request) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -31,6 +32,7 @@ public class TransactionController {
         return ResponseEntity.status(201).body(saved);
     }
 
+    // API: Lấy danh sách giao dịch (có hỗ trợ phân trang và lọc theo khoảng thời gian)
     @GetMapping
     public ResponseEntity<?> getTransactions(@RequestParam(defaultValue = "1") int page,
                                              @RequestParam(defaultValue = "10") int limit,
@@ -101,6 +103,7 @@ public class TransactionController {
         return ResponseEntity.ok(response);
     }
 
+    // API: Cập nhật thông tin của một giao dịch đã tồn tại
     @PutMapping("/{id}")
     public ResponseEntity<?> updateTransaction(@PathVariable String id, @RequestBody Transaction updates) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -121,6 +124,7 @@ public class TransactionController {
         return ResponseEntity.ok(t);
     }
 
+    // API: Xóa một giao dịch khỏi hệ thống dựa trên ID
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTransaction(@PathVariable String id) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
